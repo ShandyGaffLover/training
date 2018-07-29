@@ -1,17 +1,25 @@
+import sys
 
-call_of_3='Fizz'
-call_of_5='Bizz'
-call_of_15='Fizz Buzz'
 
-max=int(input('input max num -> '))
+def judge_fizz_buzz(num: int) -> str:
+    """入力された数字をもとにFizzBuzzのルールに従って値を返却する。"""
+    VOICE_WHEN_MULTIPLES_OF_3='Fizz'
+    VOICE_WHEN_MULTIPLES_OF_5='Bizz'
+    VOICE_WHEN_MULTIPLES_OF_15='Fizz Buzz'
+    if num % 3 == 0 and num % 5 == 0:
+        return VOICE_WHEN_MULTIPLES_OF_15
+    if num % 3 == 0:
+        return VOICE_WHEN_MULTIPLES_OF_3
+    if num % 5 == 0:
+        return VOICE_WHEN_MULTIPLES_OF_5
+    
+    return num
+
+
+try:
+    max=int(input('input max num -> '))
+except ValueError:
+    print('エラーです。数字を入力してください。')
+    sys.exist()
 for count in range(1,max+1,1):
-    if count % 3 == 0 and count % 5 == 0:
-        print(call_of_15)
-        continue
-    if count % 3 == 0:
-        print(call_of_3)
-        continue
-    if count % 5 == 0:
-        print(call_of_5)
-        continue
-    print(count)
+    print(judge_fizz_buzz(count))
