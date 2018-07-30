@@ -20,6 +20,6 @@ try:
     max=int(input('input max num -> '))
 except ValueError:
     print('エラーです。数字を入力してください。')
-    sys.exist()
+    sys.exit()
 for count in range(1,max+1,1):
     print(judge_fizz_buzz(count))
