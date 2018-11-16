@@ -6,6 +6,7 @@ def create_insert_statements_from_excel(excel_file_path: str) -> None:
     book = px.load_workbook(excel_file_path)
     for sheetname in book.sheetnames:
         create_insert_statements(book[sheetname])
+    book.save(excel_file_path)
     print("Now SQL created.")
 
 
@@ -13,10 +14,11 @@ def create_insert_statements(sheet: px.worksheet.worksheet.Worksheet) -> None:
     '''ワークシートからINSERT文を作成する'''
     the_former_half = create_the_former_half(sheet)
     table_data = sheet.iter_rows(min_row=4, max_row=6, min_col=3, max_col=7)
-    for row in table_data:
+    for i, row in enumerate(table_data, 4):
         statement = the_former_half + " "
         statement += create_the_latter_half(row)
         statement += ";"
+        sheet.cell(row=i, column=8).value = statement
         print(statement)
 
 
