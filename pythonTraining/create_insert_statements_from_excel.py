@@ -41,6 +41,13 @@ def create_the_latter_half(row: tuple) -> str:
     values_phrase = "VALUES("
     for cell in row:
         delimiter = ", "
-        values_phrase += "'" + str(cell.value) + "'" + delimiter
+        values_phrase += parse_cell_value(cell) + delimiter
     values_phrase = values_phrase[0:-1*len(delimiter)] + ")"
     return values_phrase
+
+
+def parse_cell_value(cell: px.cell.cell.Cell) -> str:
+    '''セルの値をVALUE句の値にパースする'''
+    if cell.value is None:
+        return "''"
+    return "'" + str(cell.value) + "'"
