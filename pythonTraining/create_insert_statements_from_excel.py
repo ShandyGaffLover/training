@@ -1,6 +1,14 @@
 import openpyxl as px
 
 
+HEADER_ROW = 3
+MIN_ROW = 4
+MAX_ROW = 6
+MIN_COL = 3
+MAX_COL = 7
+DST_COL = MAX_COL + 1
+
+
 def create_insert_statements_from_excel(excel_file_path: str) -> None:
     '''テーブルデータが記述されたExcelファイルからINSERT文を作成する'''
     book = px.load_workbook(excel_file_path)
@@ -13,12 +21,12 @@ def create_insert_statements_from_excel(excel_file_path: str) -> None:
 def create_insert_statements(sheet: px.worksheet.worksheet.Worksheet) -> None:
     '''ワークシートからINSERT文を作成する'''
     the_former_half = create_the_former_half(sheet)
-    table_data = sheet.iter_rows(min_row=4, max_row=6, min_col=3, max_col=7)
-    for i, row in enumerate(table_data, 4):
+    table_data = sheet.iter_rows(min_row=MIN_ROW, max_row=MAX_ROW, min_col=MIN_COL, max_col=MAX_COL)
+    for i, row in enumerate(table_data, start=MIN_ROW):
         statement = the_former_half + " "
         statement += create_the_latter_half(row)
         statement += ";"
-        sheet.cell(row=i, column=8).value = statement
+        sheet.cell(row=i, column=DST_COL).value = statement
         print(statement)
 
 
@@ -27,7 +35,7 @@ def create_the_former_half(sheet: px.worksheet.worksheet.Worksheet) -> str:
     table_name = sheet.title
     statement = "INSERT INTO " + table_name + "("
     table_header = list(sheet.iter_rows(
-        min_row=3, max_row=3, min_col=3, max_col=7)
+        min_row=HEADER_ROW, max_row=HEADER_ROW, min_col=MIN_COL, max_col=MAX_COL)
     ).pop()
     for cell in table_header:
         delimiter = ", "
