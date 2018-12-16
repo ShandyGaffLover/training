@@ -5,15 +5,10 @@ class Solution {
         if(A.length==0){
             return 0;
         }
-        Arrays.sort(A);
-        int prev=A[0];
-        int dest=1;
+        Map<Integer, Integer> map = new HashMap<>(100001,1);
         for(int curr: A){
-            if(curr!=prev){
-                dest+=1;
-                prev=curr;
-            }
+            map.put(curr, 1);
         }
-        return dest;
+        return map.size();
     }
 }
