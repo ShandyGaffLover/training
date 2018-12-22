@@ -12,7 +12,12 @@ class Solution {
         int[][] wedges = createWedges(A);
         
         // Wedgeをその位置でソートする。Ref: https://teratail.com/questions/80128
-        Arrays.sort(wedges, (a, b) -> a[COL_EDGE]-b[COL_EDGE]);
+        // Ref:https://yamakasa3.hatenablog.com/entry/2018/05/13/220437
+        Arrays.sort(wedges, new Comparator<int[]>() {
+            public int compare(int[] wedge1, int[] wedge2) {
+                return wedge1[COL_EDGE] - wedge2[COL_EDGE];
+            }
+        });
         
         // 数直線をなぞり、同じ円由来のWedge間に存在するWedgeの数を加算する。
         Map<Integer, Integer> map = new HashMap<>();
